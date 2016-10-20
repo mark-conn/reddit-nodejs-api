@@ -93,7 +93,7 @@ module.exports = function RedditAPI(conn) {
       }
       var limit = options.numPerPage || 25; // if options.numPerPage is "falsy" then use 25
       var offset = (options.page || 0) * limit;
-      //posts.userId, users.username, users.createdAt, users.updatedAt
+
       conn.query(`
   SELECT *  
   FROM posts 
@@ -139,7 +139,27 @@ module.exports = function RedditAPI(conn) {
           }
         }
       );
+    },
+        getSinglePost: function(postId, callback) {
+
+      
+        conn.query(`
+  SELECT *  
+  FROM posts 
+  INNER JOIN 
+       (SELECT users.id AS uid, users.username, users.createdAt AS ucAt, users.updatedAt AS uuAt FROM users) as user         
+        ON posts.userId = user.uid
+        WHERE posts.id = ?
+        ORDER BY posts.createdAt DESC`, [postId],
+        function(err, results) {
+          if (err) {
+            callback(err);
+          }
+          else {
+            callback(null, results);
+          }
+        }
+      );
     }
-    
   }
 }
