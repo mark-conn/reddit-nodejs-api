@@ -58,9 +58,9 @@ module.exports = function RedditAPI(conn) {
         }
       });
     },
-    createPost: function(post, callback) {
+    createPost: function(subredditId, post, callback) {
       conn.query(
-        'INSERT INTO posts (userId, title, url, createdAt) VALUES (?, ?, ?, ?)', [post.userId, post.title, post.url, new Date()],
+        'INSERT INTO posts (userId, title, url, subredditId, createdAt) VALUES (?, ?, ?, ?, ?)', [post.userId, post.title, post.url, subredditId, new Date()],
         function(err, result) {
           if (err) {
             callback(err);
@@ -97,9 +97,11 @@ module.exports = function RedditAPI(conn) {
       conn.query(`
   SELECT *  
   FROM posts 
-  INNER JOIN 
+  LEFT JOIN 
        (SELECT users.id AS uid, users.username, users.createdAt AS ucAt, users.updatedAt AS uuAt FROM users) as user        
         ON posts.userId = user.uid
+  LEFT JOIN subreddits
+        ON posts.subredditId = subreddits.id
         ORDER BY posts.createdAt DESC
         LIMIT ? OFFSET ?`
         , [limit, offset],
@@ -141,8 +143,6 @@ module.exports = function RedditAPI(conn) {
       );
     },
         getSinglePost: function(postId, callback) {
-
-      
         conn.query(`
   SELECT *  
   FROM posts 
@@ -160,6 +160,40 @@ module.exports = function RedditAPI(conn) {
           }
         }
       );
+    },
+    createSubreddit: function(sub, callback) {
+      conn.query(
+        `INSERT INTO subreddits(name, description, createdAt) VALUES (?, ?, ?)`, [sub.name, sub.description, new Date()],
+        function(err, result) {
+          if(err) { callback(err); }
+          else {
+            conn.query(
+              `SELECT * FROM subreddits WHERE id = ?`, [result.insertId],
+                            function(err, result) {
+                if (err) {
+                  callback(err);
+                }
+                else {
+                  callback(null, result[0]);
+                }
+              }
+              );
+            
+          }
+        }
+        );
+    },
+    getAllSubreddits: function(callback) {
+      conn.query(
+        `SELECT * FROM subreddits ORDER BY createdAt DESC`,
+         function(err, result) {
+           if (err) {
+             callback(err);
+           }
+           else {
+             callback(null, result);
+           }
+         });
     }
-  }
-}
+  };
+};
