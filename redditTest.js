@@ -95,10 +95,10 @@ module.exports = function RedditAPI(conn) {
       var offset = (options.page || 0) * limit;
       //posts.userId, users.username, users.createdAt, users.updatedAt
       conn.query(`
-SELECT *  
+  SELECT *  
   FROM posts 
   INNER JOIN 
-       (SELECT users.id as uid, users.username, users.createdOn, users.updatedOn FROM users) as user        
+       (SELECT users.id AS uid, users.username, users.createdAt AS ucAt, users.updatedAt AS uuAt FROM users) as user        
         ON posts.userId = user.uid
         ORDER BY posts.createdAt DESC
         LIMIT ? OFFSET ?`
@@ -112,6 +112,34 @@ SELECT *
           }
         }
       );
+    },
+    getAllPostsForUser: function(userId, options, callback) {
+          if (!callback) {
+            callback = options;
+            options = {};
+          }
+          var limit = options.numPerPage || 25; // if options.numPerPage is "falsy" then use 25
+          var offset = (options.page || 0) * limit;
+      
+        conn.query(`
+  SELECT *  
+  FROM posts 
+  INNER JOIN 
+       (SELECT users.id AS uid, users.username, users.createdAt AS ucAt, users.updatedAt AS uuAt FROM users) as user         
+        ON posts.userId = user.uid
+        WHERE user.uid = ?
+        ORDER BY posts.createdAt DESC
+        LIMIT ? OFFSET ?`, [userId, limit, offset],
+        function(err, results) {
+          if (err) {
+            callback(err);
+          }
+          else {
+            callback(null, results);
+          }
+        }
+      );
     }
+    
   }
 }
