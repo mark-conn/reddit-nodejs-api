@@ -1,8 +1,9 @@
 var express = require('express');
 var app = express();
 
-app.get('/hello', function (req, res) {
-  res.send('<h1>Hello World!</h1>');
+app.get('/hello', function (request, response) {
+  var name = request.query.name;   
+  response.send(`<h1>Hello ${name}!</h1>`);
 });
 
 
