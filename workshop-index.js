@@ -1,9 +1,14 @@
 var express = require('express');
 var app = express();
 
-app.get('/hello', function (request, response) {
-  var name = request.query.name;   
-  response.send(`<h1>Hello ${name}!</h1>`);
+// app.get('/hello', function (request, response) {
+//   var name = request.query.name;   
+//   response.send(`<h1>Hello ${name}!</h1>`);
+// });
+
+app.get('/hello/:name', function (request, response) {
+   var name = request.params.name
+   response.send(`<h1>Hello ${name}!</h1>`);
 });
 
 
