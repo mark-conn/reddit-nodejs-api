@@ -30,8 +30,7 @@ app.get('/calculator/:operation', function(request, response){
             solution = num1 / num2;
             break;
         default:
-        //tried to put 10.4.1 but wouldn't allow the second dot operator?
-            response.status(10.4);
+            response.status(response.send(400));
     }
 
         response.send({
