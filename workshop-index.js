@@ -54,32 +54,45 @@ var app = express();
     
 // });
 
-    app.get('/posts', function(request, response) {
-        redditAPI.getAllPosts('', 0, function(err, result) {
-            if (err) console.log(err, "Error using getAllPosts");
-            else {
-var htmlResults = (`<div id="contents">
-  <h1>List of contents</h1>
-  <ul class="contents-list">`)
-  for(var i = 0; i < result.length; i++) {
-  htmlResults +=
-  `<li class="${result[i].id}">
-      <h2 class="${result[i].subreddit.name}">
-        <a href=${result[i].url}>${result[i].title}</a>
-      </h2>
-      <p>Created by ${result[i].user.username}</p>
-    </li>`
-    }
- var htmlEnd =  (`</ul>
-</div>`)
+//     app.get('/posts', function(request, response) {
+//         redditAPI.getAllPosts('', 0, function(err, result) {
+//             if (err) console.log(err, "Error using getAllPosts");
+//             else {
+// var htmlResults = (`<div id="contents">
+//   <h1>List of contents</h1>
+//   <ul class="contents-list">`)
+//   for(var i = 0; i < result.length; i++) {
+//   htmlResults +=
+//   `<li class="${result[i].id}">
+//       <h2 class="${result[i].subreddit.name}">
+//         <a href=${result[i].url}>${result[i].title}</a>
+//       </h2>
+//       <p>Created by ${result[i].user.username}</p>
+//     </li>`
+//     }
+//  var htmlEnd =  (`</ul>
+// </div>`)
             
-            }
-            response.send(htmlResults + htmlEnd);
-        });
+//             }
+//             response.send(htmlResults + htmlEnd);
+//         });
 
-    });
+//     });
 
-
+app.get('/createContent', function(request, response) {
+    var htmlForm = `
+  <form action="/createContent" method="POST"> 
+  <div>
+    <input type="text" name="url" placeholder="Enter a URL to content">
+  </div>
+  <div>
+    <input type="text" name="title" placeholder="Enter the title of your content">
+  </div>
+  <button type="submit">Create!</button>
+  </form>`
+    response.send(htmlForm)
+    
+})
 
 
 
