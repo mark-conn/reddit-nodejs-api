@@ -1,5 +1,7 @@
 var express = require('express');
 var mysql = require('mysql');
+var bodyParser = require('body-parser');
+
 
 var connection = mysql.createConnection({
   host     : 'localhost',
@@ -12,6 +14,7 @@ var reddit = require('./redditTest');
 var redditAPI = reddit(connection);
 
 var app = express();
+app.set('view engine', 'pug');
 
 // app.get('/hello', function (request, response) {
 //   var name = request.query.name;   
@@ -54,45 +57,38 @@ var app = express();
     
 // });
 
-//     app.get('/posts', function(request, response) {
-//         redditAPI.getAllPosts('', 0, function(err, result) {
-//             if (err) console.log(err, "Error using getAllPosts");
-//             else {
-// var htmlResults = (`<div id="contents">
-//   <h1>List of contents</h1>
-//   <ul class="contents-list">`)
-//   for(var i = 0; i < result.length; i++) {
-//   htmlResults +=
-//   `<li class="${result[i].id}">
-//       <h2 class="${result[i].subreddit.name}">
-//         <a href=${result[i].url}>${result[i].title}</a>
-//       </h2>
-//       <p>Created by ${result[i].user.username}</p>
-//     </li>`
-//     }
-//  var htmlEnd =  (`</ul>
-// </div>`)
-            
-//             }
-//             response.send(htmlResults + htmlEnd);
-//         });
+    app.get('/posts', function(request, response) {
+        redditAPI.getAllPosts('', 0, function(err, posts) {
+            if (err) console.log(err, "Error using getAllPosts");
+            else {
+                console.log(posts);
+                response.render('post-list', {posts: posts});
+            }
+        });
+    });
 
-//     });
 
 app.get('/createContent', function(request, response) {
-    var htmlForm = `
-  <form action="/createContent" method="POST"> 
-  <div>
-    <input type="text" name="url" placeholder="Enter a URL to content">
-  </div>
-  <div>
-    <input type="text" name="title" placeholder="Enter the title of your content">
-  </div>
-  <button type="submit">Create!</button>
-  </form>`
-    response.send(htmlForm)
-    
+response.render('create-content');
 })
+
+var urlencodedParser = bodyParser.urlencoded({ extended: false });
+
+app.post('/createContent', urlencodedParser, function(request, response){
+    redditAPI.createPost(2, {
+      title: request.body.title,
+      url: request.body.url,
+      userId: 10
+    }, function(err, post) {
+      if (err) {
+        console.log(err);
+      }
+      else {
+        var postId = request.params.id  
+        response.redirect(`/posts`);
+      } 
+    });
+});
 
 
 

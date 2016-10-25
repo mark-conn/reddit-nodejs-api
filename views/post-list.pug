@@ -1,0 +1,6 @@
+extends layout.pug
+block content
+    each post in posts
+            a(href=post.url)
+                li= post.title
+            p Post created by #{post.user.username}
