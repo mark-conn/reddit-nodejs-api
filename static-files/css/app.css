@@ -1,0 +1,154 @@
+body {
+    margin: 0;
+    /*background: linear-gradient(#ff91c6, cyan);*/
+    background-color: whitesmoke;
+    font-family: "Raleway", sans-serif;
+}
+
+a {
+    text-decoration: none;
+}
+
+
+
+.header {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: .8em;
+    font-family: 'Lobster';
+    font-size: 5em;
+    height: 70vh;
+    background-image: url('https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/45563229856031.5611fc1811e24.png');
+    background-size: contain;
+    filter: blur(.8px);
+    background-repeat: repeat-x;
+    color: #ff7fed;
+    text-shadow: 7px 7px 30px cyan;
+}
+
+.header span {
+
+    color: #b7fff9;
+    text-shadow: 7px 7px 30px #ff7fed;
+    z-index:9999;
+    filter: blur(0px);
+}
+.nav-list p {
+    color: black;
+    font-size: 1.5em;
+    font-weight: bolder;
+    margin-top: .4em;
+}
+
+
+@media only screen and (max-width: 641px){
+.header {
+flex-wrap: wrap;
+background-size: cover;
+font-size: 2em;
+height: 30vh;
+}
+
+.nav-item {
+    
+max-height: 1.5em;
+max-width: 1.5em;
+
+}
+
+.nav-item i {
+ font-size: 1em;
+
+}
+
+.nav-list p {
+    font-size: 1em;
+    margin-top: .4em;
+    margin-bottom: .4em;
+}
+
+}
+
+.nav-bar {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    list-style-type: none;
+    padding-left: 1em;
+
+}
+
+.nav-item {
+    border: none;
+    color: whitesmoke;
+    font-size: 2.5em;
+    cursor: pointer;
+    height: 3em;
+    width: 3em;
+    border-radius: 15%;
+    box-shadow: .5px .5px .5px .5px #adadad;
+}
+
+.nav-item:hover {
+  background-color: #00eae2;
+    
+}
+
+.nav-list {
+    text-align: center;
+    margin: 0 auto;
+}
+
+
+
+
+.post-list {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    list-style-type: none;
+    padding: 1em;
+}
+
+.post {
+    margin: 1em;
+    background-color: #ededed;
+    box-shadow: .5px .5px .5px .5px #adadad;
+}
+
+.vote-form {
+    display: flex;
+    justify-content: center;
+
+}
+
+.vote {
+    margin: .2em;
+    padding: .5em;
+    font-size: 1.8em;
+    border: none;
+    border-radius:.1em;
+    cursor: pointer;
+    color: whitesmoke;
+    box-shadow: .5px .5px .5px .5px #adadad;
+}
+
+.vote:hover {
+    background-color: #ffd1d1;
+}
+
+.vote-scores {
+    display: flex;
+    font-size: 1.5em;
+    justify-content: center;
+}
+
+.score-item {
+    margin: .5em;
+    color: grey;
+}

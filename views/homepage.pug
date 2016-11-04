@@ -1,0 +1,59 @@
+extends layout.pug
+block title
+  title Reddit Clone
+block content
+  div.row
+    div.blur
+    h1.header.col-small-12 #[span Welcome,#{user}] 
+  ul.nav-bar.row
+    li.nav-list.col-small-4.col-medium-4.col-large-1
+      form(action="/subreddits", method="GET")
+          button.nav-item(type="submit")
+            i.fa.fa-comment
+      p Create Post
+    li.nav-list.col-small-4.col-medium-4.col-large-1
+      a(href='/subreddits')
+        button.nav-item(type="submit")
+          i.fa.fa-sitemap
+      p Subreddits
+    li.nav-list.col-small-4.col-medium-4.col-large-1
+      form(action="/", method="POST")
+        input(type="hidden", name="sort", value="Top ranking")
+        button.nav-item(type="submit")
+          i.fa.fa-bolt
+      p Top
+    li.nav-list.col-small-4.col-medium-4.col-large-1
+      form(action="/", method="POST")
+        input(type="hidden", name="sort", value="Newest ranking")
+        button.nav-item(type="submit")
+          i.fa.fa-heartbeat
+      p New
+    li.nav-list.col-small-4.col-medium-4.col-large-1
+      form(action="/", method="POST")
+        input(type="hidden", name="sort", value="Hotness ranking")
+        button.nav-item(type="submit")
+          i.fa.fa-bomb
+      p Hot
+    li.nav-list.col-small-4.col-medium-4.col-large-1
+      form(action="/logout", method="POST")
+        button.nav-item(type="submit")
+          i.fa.fa-paper-plane
+      p Logout
+  div.row    
+    ul.post-list.row
+      each post in posts
+        li.post.col-large-3.col-medium-6.col-small-12
+          h2
+            a(href=post.url)= post.title
+          p Submitted by #{post.user.username}
+          h3
+            a(href=`/r/${post.subreddit.id}/${post.subreddit.name}`)= post.subreddit.name
+          div.vote-form.row
+            button.vote(data-postid= post.id, data-direction= 1) 
+              i.fa.fa-thumbs-up
+            button.vote(data-postid= post.id, data-direction= -1)
+              i.fa.fa-thumbs-down
+          div.vote-scores.row 
+            i.score-item.votescore.fa.fa-heartbeat(data-votescore = post.votes.score)  #{post.votes.score}
+            i.score-item.upvotes.fa.fa-arrow-circle-up(data-upvotes = post.votes.upVotes) #{post.votes.upVotes} 
+            i.score-item.downvotes.fa.fa-arrow-circle-down(data-downvotes = post.votes.downVotes) #{post.votes.downVotes}

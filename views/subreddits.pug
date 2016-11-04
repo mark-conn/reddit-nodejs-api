@@ -1,0 +1,15 @@
+extends layout.pug
+
+block title
+  title Subreddits
+  
+block content
+  h1 Subreddits
+  a(href='/')
+    button(type="submit") Home
+  ul.result-list
+    each result in results
+      li.result
+        a(href=`/r/${result.id}/${result.name}`) #{result.name}
+        h4 #{result.description}
+            

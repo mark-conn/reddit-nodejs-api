@@ -1,0 +1,9 @@
+form(action=`/createPost/${id}`, method="POST")
+  input(type="hidden", name= 'tag', value = tag)
+  div
+    input(type="text", name="url", placeholder="Enter a URL")
+  div
+    input(type="text", name="title", placeholder="Enter a title")
+  button(type="submit") Create!
+a(href= subreddit)
+  button(type="submit") Back

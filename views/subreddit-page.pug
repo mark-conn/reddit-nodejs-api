@@ -1,0 +1,40 @@
+extends layout.pug
+
+block title
+  title #{name}
+
+block content
+  h1 Welcome to #{name}
+  a(href="/createPost/" + id)
+    button(type="submit") Create Post!
+  a(href='/subreddits')
+    button(type="submit") Subreddits
+  a(href='/')
+    button(type="submit") Home
+  form(action=`/r/${id}/${name}`, method="POST")
+    input(type="hidden", name="sort", value="Top ranking")
+    button(type="submit") Top
+  form(action=`/r/${id}/${name}`, method="POST")
+    input(type="hidden", name="sort", value="Newest ranking")
+    button(type="submit") New
+  form(action=`/r/${id}/${name}`, method="POST")
+    input(type="hidden", name="sort", value="Hotness ranking")
+    button(type="submit") Hot
+  ul.post-list
+    each post in posts
+      li.post
+        h2
+          a(href=`https://${post.url}`)= post.title
+        h4
+          p #{post.subreddit.description}
+        p Submitted by #{post.user.username}
+        form(action="/vote", method="POST")
+          input(type="hidden", name="vote", value= 1)
+          input(type="hidden", name="postId", value= post.id)
+          button(type="submit") Upvote
+        form(action="/vote", method="POST")
+          input(type="hidden", name="vote", value= -1)
+          input(type="hidden", name="postId", value= post.id)
+          button(type="submit") Downvote
+        p 
+          ='Score' + ' ' + post.votes.score + ' ' + 'Upvotes' + ' ' + post.votes.upVotes + ' ' + 'Downvotes' + ' ' + post.votes.downVotes

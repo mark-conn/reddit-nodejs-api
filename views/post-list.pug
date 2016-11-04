@@ -1,6 +1,18 @@
 extends layout.pug
+
+block title
+  title Welcome to Reddit Clone!!!
+
 block content
+  h1 Welcome to Reddit Clone
+  form(action="/signup", method="GET")
+    button(type='submit') Sign Up
+  form(action="/login", method="GET")
+    button(type="submit") Login
+  ul.post-list
     each post in posts
-            a(href=post.url)
-                li= post.title
-            p Post created by #{post.user.username}
+      li.post
+        h2
+          a(href=post.url)= post.title
+        p Submitted by #{post.user.username}
+        p Score: #{post.votes.score} Upvotes: #{post.votes.upVotes} Downvotes: #{post.votes.downVotes}

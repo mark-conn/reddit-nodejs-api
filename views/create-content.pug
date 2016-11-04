@@ -1,6 +1,10 @@
-form(action="/createContent", method="POST")
+form(action="/createPost", method="POST")
   div
-    input(type="text", name="url", placeholder="Enter a URL to content")
+    input(type="text", name="url", placeholder="Enter a URL")
   div
-    input(type="text", name="title", placeholder="Enter the title of your content")
+    input(type="text", name="title", placeholder="Enter a title")
+  div
+    input(type="text", name="subreddit", placeholder="Enter a subreddit")
   button(type="submit") Create!
+form(action='/', method="GET")
+  button(type="submit") Home
